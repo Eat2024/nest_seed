@@ -1,0 +1,25 @@
+{
+  "name": "nest-seed",
+  "version": "0.0.0",
+  "private": true,
+  "description": "NestJS + Next.js 種子專案",
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"pnpm -C server dev\" \"pnpm -C client dev\"",
+    "dev:server": "pnpm -C server dev",
+    "dev:client": "pnpm -C client dev",
+    "build": "pnpm -C server build && pnpm -C client build",
+    "build:server": "pnpm -C server build",
+    "build:client": "pnpm -C client build",
+    "test": "pnpm -C server test",
+    "lint": "pnpm -C server lint && pnpm -C client lint",
+    "format": "pnpm -C server format",
+    "install:all": "pnpm install && pnpm -C server install && pnpm -C client install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
