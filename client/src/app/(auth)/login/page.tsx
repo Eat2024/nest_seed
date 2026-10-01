@@ -74,7 +74,6 @@ const LoginForm = () => {
         <Button
           fullWidth
           variant="outlined"
-          color="warning"
           type="button"
           loading={isDevLoginPending}
           onClick={() => devLoginMutate()}
