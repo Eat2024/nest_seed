@@ -8,15 +8,20 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { validationExceptionFactory } from '#app/common/errors/validation-exception.factory';
 import { AppModule } from '#app/app.module';
 import { AppEnvironment } from '#app/config/app.environment';
 import { ExceptionHandler } from '#app/framework/filters/exception.handler';
+import { AuthGuard } from '#app/framework/guards/auth.guard';
+import { HttpAccessLogInterceptor } from '#app/framework/interceptors/http-access-log.interceptor';
 import { ResponseInterceptor } from '#app/framework/interceptors/response.interceptor';
+import { AUTH_COOKIE_NAME } from '#app/features/auth/auth.constants';
 
 /**
- * Fastify 插件註冊（安全標頭 / cookie / multipart）。
- * main bootstrap 與 e2e 測試 app MUST 共用本函式，避免測試環境行為與正式不一致。
+ * Fastify 插件註冊（安全標頭 / cookie 驗證 token / multipart）。
+ * main bootstrap 與 e2e 測試 app MUST 共用本函式——只在 main.ts 註冊會使測試環境
+ * req.cookies 為 undefined、登入身分掛不上。
  */
 export async function registerFastifyPlugins(
   app: NestFastifyApplication,
@@ -60,7 +65,10 @@ export async function createApp(): Promise<NestFastifyApplication> {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     createFastifyAdapter(),
+    { bufferLogs: true },
   );
+
+  app.useLogger(app.get(Logger));
   return app;
 }
 
@@ -76,9 +84,14 @@ export function configureApp(app: NestFastifyApplication): void {
 
   app.useGlobalFilters(app.get(ExceptionHandler));
 
-  // 需要登入驗證時，在此掛全域 guard：app.useGlobalGuards(app.get(AuthGuard));
+  // 全域驗證：AuthGuard 統一處理身分驗證與 default-deny 權限檢查。
+  app.useGlobalGuards(app.get(AuthGuard));
 
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  // HTTP access log 在外層（回應端最後作用，記到 ResponseInterceptor 套用固定格式後的回應）
+  app.useGlobalInterceptors(
+    app.get(HttpAccessLogInterceptor),
+    new ResponseInterceptor(),
+  );
 }
 
 /** 啟動 HTTP server 並設定連線逾時。 */
@@ -117,7 +130,10 @@ export function configureSwagger(
     .setTitle('API 文件')
     .setDescription('這是自動生成的 Swagger API 文件')
     .setVersion('1.0')
+    .addCookieAuth(AUTH_COOKIE_NAME, { type: 'apiKey' }, AUTH_COOKIE_NAME)
     .build();
   const document = SwaggerModule.createDocument(app, config);
+
+  document.security = [{ [AUTH_COOKIE_NAME]: [] }];
   SwaggerModule.setup('swagger', app, document);
 }

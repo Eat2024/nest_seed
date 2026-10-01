@@ -3,6 +3,16 @@
 // Nest runtime 由 provider 傳入 ConfigService 讀取器；CLI/seed 直接 import 時才 fallback 到 process.env。
 import { join } from 'path';
 import type { DataSourceOptions } from 'typeorm';
+import { AuditLogTarget } from '#app/features/auth/entities/audit-log-target.entity';
+import { AuditLog } from '#app/features/auth/entities/audit-log.entity';
+import { AuthApiPermission } from '#app/features/auth/entities/auth-api-permission.entity';
+import { AuthApi } from '#app/features/auth/entities/auth-api.entity';
+import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
+import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
+import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permission.entity';
+import { AuthRole } from '#app/features/auth/entities/auth-role.entity';
+import { AuthUser } from '#app/features/auth/entities/auth-user.entity';
 
 export type EnvReader = (key: string) => string | undefined;
 
@@ -51,7 +61,18 @@ export function buildMysqlOptions(
     charset: 'utf8mb4',
 
     // 明確註冊 entities，避免 glob 掃描範圍不清楚，也和 runtime/migration CLI 共用同一份設定。
-    entities: [],
+    entities: [
+      AuditLog,
+      AuditLogTarget,
+      AuthApi,
+      AuthApiPermission,
+      AuthCksGroup,
+      AuthGroupJob,
+      AuthJobPermission,
+      AuthRole,
+      AuthRolePermission,
+      AuthUser,
+    ],
     migrations: [join(__dirname, '..', 'migrations', '*.{ts,js}')],
 
     extra: {

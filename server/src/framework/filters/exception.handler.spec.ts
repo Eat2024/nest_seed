@@ -1,9 +1,5 @@
-import {
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-  Logger,
-} from '@nestjs/common';
+import { ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { AppLoggerService } from '#app/infrastructure/logging/appLog/app-logger.service';
 import { ExceptionHandler } from './exception.handler';
 
 const makeHost = (): {
@@ -33,19 +29,13 @@ const makeHost = (): {
 };
 
 describe('ExceptionHandler', () => {
-  let logger: { error: jest.SpyInstance };
+  let logger: { error: jest.Mock };
   let handler: ExceptionHandler;
 
   beforeEach(() => {
-    logger = {
-      error: jest
-        .spyOn(Logger.prototype, 'error')
-        .mockImplementation(() => undefined),
-    };
-    handler = new ExceptionHandler();
+    logger = { error: jest.fn() };
+    handler = new ExceptionHandler(logger as unknown as AppLoggerService);
   });
-
-  afterEach(() => jest.restoreAllMocks());
 
   it('非 HttpException → 回 500 並以 error 記 stack', () => {
     const { host, sent } = makeHost();
@@ -55,7 +45,16 @@ describe('ExceptionHandler', () => {
 
     expect(sent.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
     expect(logger.error).toHaveBeenCalledTimes(1);
-    expect(logger.error).toHaveBeenCalledWith('GET /api/x boom', err.stack);
+    const [entry] = logger.error.mock.calls[0] as [
+      {
+        event: string;
+        metadata: { stack?: string; statusCode: number; path: string };
+      },
+    ];
+    expect(entry.event).toBe('http.unhandled_exception');
+    expect(entry.metadata.stack).toBe(err.stack);
+    expect(entry.metadata.statusCode).toBe(500);
+    expect(entry.metadata.path).toBe('/api/x');
     expect(sent.body).toMatchObject({
       success: false,
       error: {
