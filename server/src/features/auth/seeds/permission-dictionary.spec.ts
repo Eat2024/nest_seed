@@ -38,7 +38,7 @@ describe('permission-dictionary 權限鍵 enum drift 防護', () => {
   });
 
   /**
-   * 011 實例：`build` 加進字典與 seed 後，`ACTION_ORDER` 沒同步——DB 有那列、
+   * 曾發生的實例：新 action 加進字典與 seed 後，`ACTION_ORDER` 沒同步——DB 有那列、
    * guard 也要求它，但 `toPermissionCatalog` 以 ACTION_ORDER 為欄序來源，
    * 該權限在 `GET /roles/:id/permissions` 完全不出現，角色管理頁因此勾不到。
    * 全綠、零型別錯誤，只有打 API 才會發現——故補此守門。
@@ -51,7 +51,7 @@ describe('permission-dictionary 權限鍵 enum drift 防護', () => {
     );
     for (const action of dictionaryActions) {
       expect(ACTION_ORDER as readonly string[]).toContain(action);
-      // label 缺漏會讓前端顯示原始 action 字串（如「build」）而非中文
+      // label 缺漏會讓前端顯示原始 action 字串（如「printExport」）而非中文
       expect(ACTION_LABEL[action as keyof typeof ACTION_LABEL]).toBeTruthy();
     }
   });

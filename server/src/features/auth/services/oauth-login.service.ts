@@ -29,7 +29,7 @@ export interface OauthCallbackResult {
  * 統一登入流程協調（US1）：
  * start → 產 state／nonce、存交易、回授權網址；
  * getAccessTokenAndUserInfo → 領取交易 → 換 token（套件驗簽／nonce／issuer／aud）→ UserInfo → 配對帳號 →
- * 發 CKS session（refresh token 加密後存 Redis 供主動登出）。
+ * 發本系統 session（refresh token 加密後存 Redis 供主動登出）。
  * 任一步失敗不發 cookie；已交換的 token 只留在記憶體，失敗即丟棄、不代呼叫上游登出。
  */
 @Injectable()
@@ -84,7 +84,7 @@ export class OauthLoginService {
     });
 
     // 本系統拿到 OAuth Server 給的 AT 後會轉成自己認得的 AT
-    const cksAccessToken = await this.sessions.issue(Number(user.id), {
+    const sessionToken = await this.sessions.issue(Number(user.id), {
       source: SESSION_SOURCE.OAUTH,
       encryptedRefreshToken: encryptSecret(
         tokens.refreshToken,
@@ -94,7 +94,7 @@ export class OauthLoginService {
     await this.authorization.rememberUser(Number(user.id));
     const session = await this.authService.buildSession(user);
     return {
-      accessToken: cksAccessToken,
+      accessToken: sessionToken,
       session,
       redirectTo: claimed.redirectTo,
     };

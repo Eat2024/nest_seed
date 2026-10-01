@@ -59,7 +59,7 @@ const setup = () => {
 };
 
 describe('UserAccountService', () => {
-  it('員編片段向 fgapi 模糊查詢，保留 CKS 停用狀態且不建檔', async () => {
+  it('員編片段向 fgapi 模糊查詢，保留本地停用狀態且不建檔', async () => {
     const { service, users, hr } = setup();
     users.findByEmpIdsIncludingDeleted.mockResolvedValue([
       { ...activeUser(), personEmpid: '00115001', isActive: false },

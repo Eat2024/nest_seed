@@ -20,7 +20,7 @@ const loginWithError = (code: string) =>
 /**
  * 統一登入回呼頁（註冊的 redirect_uri；proxy 對此頁無條件放行）。
  * 只在記憶體擷取 code／state／error，立即以 replaceState 移除網址上的敏感參數，
- * 再同源 POST 後端換取 CKS cookie。不寫入任何 storage、不自動重試。
+ * 再同源 POST 後端換取本系統登入 cookie。不寫入任何 storage、不自動重試。
  */
 const OauthCallbackPage = () => {
   const router = useRouter();

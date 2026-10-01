@@ -4,7 +4,7 @@ import { AuditLogTarget } from '#app/features/auth/entities/audit-log-target.ent
 import { AuditLog } from '#app/features/auth/entities/audit-log.entity';
 import { AuthApiPermission } from '#app/features/auth/entities/auth-api-permission.entity';
 import { AuthApi } from '#app/features/auth/entities/auth-api.entity';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permission.entity';
@@ -28,8 +28,8 @@ export class MysqlEntityService {
     readonly authApi: Repository<AuthApi>,
     @Inject('AuthApiPermissionRepository')
     readonly authApiPermission: Repository<AuthApiPermission>,
-    @Inject('AuthCksGroupRepository')
-    readonly authCksGroup: Repository<AuthCksGroup>,
+    @Inject('AuthGroupRepository')
+    readonly authGroup: Repository<AuthGroup>,
     @Inject('AuthGroupJobRepository')
     readonly authGroupJob: Repository<AuthGroupJob>,
     @Inject('AuthJobPermissionRepository')

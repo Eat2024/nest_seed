@@ -1,4 +1,4 @@
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { groupBy } from '#app/features/auth/mappers/group-by';
@@ -39,7 +39,7 @@ export interface AuthNavigation {
  * 後端一律回完整導覽，前端依 enabled 決定顯示 / 灰掉。
  */
 export function buildAuthNavigation(
-  groups: AuthCksGroup[],
+  groups: AuthGroup[],
   jobs: AuthGroupJob[],
   permissions: AuthJobPermission[],
   checkedIds: ReadonlySet<number>,

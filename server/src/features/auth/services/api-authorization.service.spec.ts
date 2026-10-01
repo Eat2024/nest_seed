@@ -12,7 +12,7 @@ describe('ApiAuthorizationService', () => {
     userActive: true,
     roleActive: true,
     isAdmin: false,
-    permissions: ['acceptance.view', 'acceptance.edit'],
+    permissions: ['report.view', 'report.edit'],
   };
 
   const setup = () => {
@@ -39,9 +39,7 @@ describe('ApiAuthorizationService', () => {
     const { service, cache, query } = setup();
     cache.get.mockResolvedValue(snapshot);
 
-    await expect(service.hasPermission(7, 'acceptance.view')).resolves.toBe(
-      true,
-    );
+    await expect(service.hasPermission(7, 'report.view')).resolves.toBe(true);
     await expect(service.hasPermission(7, 'unknown')).resolves.toBe(false);
     expect(query).not.toHaveBeenCalled();
   });
@@ -57,7 +55,7 @@ describe('ApiAuthorizationService', () => {
         user_active: 1,
         role_active: 1,
         is_admin: 0,
-        permission_key: 'acceptance.approve',
+        permission_key: 'report.approve',
       },
     ]);
 
@@ -66,7 +64,7 @@ describe('ApiAuthorizationService', () => {
     expect(cache.update).toHaveBeenCalledWith({
       ...snapshot,
       roleId: 4,
-      permissions: ['acceptance.approve'],
+      permissions: ['report.approve'],
     });
   });
 
@@ -93,7 +91,7 @@ describe('ApiAuthorizationService', () => {
         user_active: 1,
         role_active: 1,
         is_admin: 0,
-        permission_key: 'acceptance.view',
+        permission_key: 'report.view',
       },
     ]);
 
@@ -120,9 +118,7 @@ describe('ApiAuthorizationService', () => {
     const { service, cache, query } = setup();
     cache.get.mockResolvedValue({ ...snapshot, permissions: [] });
 
-    await expect(service.hasPermission(7, 'acceptance.view')).resolves.toBe(
-      false,
-    );
+    await expect(service.hasPermission(7, 'report.view')).resolves.toBe(false);
     expect(query).not.toHaveBeenCalled();
   });
 
@@ -131,7 +127,7 @@ describe('ApiAuthorizationService', () => {
     cache.get.mockResolvedValue(snapshot);
 
     await expect(
-      service.hasAnyPermission(7, ['unknown', 'acceptance.edit']),
+      service.hasAnyPermission(7, ['unknown', 'report.edit']),
     ).resolves.toBe(true);
     expect(cache.get).toHaveBeenCalledTimes(1);
   });
@@ -147,7 +143,7 @@ describe('ApiAuthorizationService', () => {
         user_active: 1,
         role_active: 1,
         is_admin: 0,
-        permission_key: 'acceptance.view',
+        permission_key: 'report.view',
       },
       {
         user_id: 7,
@@ -155,13 +151,11 @@ describe('ApiAuthorizationService', () => {
         user_active: 1,
         role_active: 1,
         is_admin: 0,
-        permission_key: 'acceptance.edit',
+        permission_key: 'report.edit',
       },
     ]);
 
-    await expect(service.hasPermission(7, 'acceptance.edit')).resolves.toBe(
-      true,
-    );
+    await expect(service.hasPermission(7, 'report.edit')).resolves.toBe(true);
     expect(query).toHaveBeenCalledTimes(1);
     expect(cache.create).toHaveBeenCalledWith(snapshot);
   });
@@ -193,7 +187,7 @@ describe('ApiAuthorizationService', () => {
     const { service, cache, query } = setup();
     cache.get.mockRejectedValue(new Error('synthetic redis failure'));
 
-    await expect(service.hasPermission(7, 'acceptance.view')).rejects.toThrow(
+    await expect(service.hasPermission(7, 'report.view')).rejects.toThrow(
       'synthetic redis failure',
     );
     expect(query).not.toHaveBeenCalled();

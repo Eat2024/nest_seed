@@ -1,18 +1,18 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { AuditableEntity } from '#app/infrastructure/database/auditable.entity';
 
-/** auth_cks_group — 權限分組（層級第一層）。 */
-@Entity({ name: 'auth_cks_group', comment: '權限分組（層級第一層）' })
-export class AuthCksGroup extends AuditableEntity {
+/** auth_group — 權限分組（層級第一層）。 */
+@Entity({ name: 'auth_group', comment: '權限分組（層級第一層）' })
+export class AuthGroup extends AuditableEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint', comment: '流水號' })
   id!: number;
 
-  @Index('uq_auth_cks_group_group_key', { unique: true })
+  @Index('uq_auth_group_group_key', { unique: true })
   @Column({
     name: 'group_key',
     type: 'varchar',
     length: 100,
-    comment: '分組鍵，例 centralKitchenAcceptance',
+    comment: '分組鍵，例 permissionManagement',
   })
   groupKey!: string;
 
@@ -20,7 +20,7 @@ export class AuthCksGroup extends AuditableEntity {
     name: 'group_name',
     type: 'varchar',
     length: 100,
-    comment: '分組名稱，例 央廚驗收',
+    comment: '分組名稱，例 權限管理',
   })
   groupName!: string;
 

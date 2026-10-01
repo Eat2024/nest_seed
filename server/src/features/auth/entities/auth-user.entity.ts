@@ -2,10 +2,10 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { AuditableEntity } from '#app/infrastructure/database/auditable.entity';
 
 /**
- * auth_users — CKS 本地使用者（首次登入由饗賓 API 建立）。
+ * auth_users — 本地使用者（首次登入由饗賓 API 建立）。
  * 不含 password_hash / verification_code / 明文 token / birthdate（FR-016）。
  */
-@Entity({ name: 'auth_users', comment: 'CKS 本地使用者' })
+@Entity({ name: 'auth_users', comment: '本地使用者' })
 export class AuthUser extends AuditableEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint', comment: '流水號' })
   id!: number;
@@ -60,8 +60,7 @@ export class AuthUser extends AuditableEntity {
     type: 'varchar',
     length: 150,
     nullable: true,
-    comment:
-      '部門名稱（冗餘顯示；來源同步時一併寫入）',
+    comment: '部門名稱（冗餘顯示；來源同步時一併寫入）',
   })
   departmentName?: string;
 
@@ -70,8 +69,7 @@ export class AuthUser extends AuditableEntity {
     type: 'varchar',
     length: 100,
     nullable: true,
-    comment:
-      '職稱名稱（冗餘顯示；來源同步時一併寫入）',
+    comment: '職稱名稱（冗餘顯示；來源同步時一併寫入）',
   })
   titleName?: string;
 
@@ -80,8 +78,7 @@ export class AuthUser extends AuditableEntity {
     type: 'varchar',
     length: 500,
     nullable: true,
-    comment:
-      'CKS 本地備註（不被登入同步覆蓋）',
+    comment: '本地備註（不被登入同步覆蓋）',
   })
   description?: string;
 
@@ -89,7 +86,7 @@ export class AuthUser extends AuditableEntity {
     name: 'is_active',
     type: 'boolean',
     default: true,
-    comment: 'CKS 帳號啟用',
+    comment: '帳號啟用',
   })
   isActive!: boolean;
 

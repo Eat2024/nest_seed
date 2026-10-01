@@ -1,10 +1,10 @@
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { buildAuthNavigation } from './auth-navigation.mapper';
 
-const group = (id: number, groupName: string): AuthCksGroup =>
-  ({ id, groupName }) as AuthCksGroup;
+const group = (id: number, groupName: string): AuthGroup =>
+  ({ id, groupName }) as AuthGroup;
 
 const job = (
   id: number,
@@ -22,9 +22,9 @@ const perm = (id: number, jobId: number, action: string): AuthJobPermission =>
   }) as AuthJobPermission;
 
 // 兩群組：g1 有 j10（perm 11/12）、g3 有 j30（perm 31）
-const groups = [group(1, '驗收'), group(3, '權限管理')];
+const groups = [group(1, '報表'), group(3, '權限管理')];
 const jobs = [
-  job(10, 1, 'acceptanceOrdersQuery', '驗收單查詢'),
+  job(10, 1, 'monthlyReport', '月報表'),
   job(30, 3, 'roleManagement', '角色管理'),
 ];
 const permissions = [
@@ -50,7 +50,7 @@ describe('buildAuthNavigation', () => {
     const nav = buildAuthNavigation(groups, jobs, permissions, new Set([12]));
     const j10 = nav.jobPermissions.find((j) => j.jobId === 10)!;
 
-    expect(j10.jobKey).toBe('acceptanceOrdersQuery');
+    expect(j10.jobKey).toBe('monthlyReport');
     expect(j10.permissions).toEqual([
       {
         permissionId: 11,

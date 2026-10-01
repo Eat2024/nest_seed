@@ -32,11 +32,11 @@ describe('AuthLogoutService.logout', () => {
     const { service, sessions, oauthClient } = setup();
     sessions.revoke.mockResolvedValue(oauthRecord());
 
-    await expect(service.logout('cks-jwt')).resolves.toEqual({
+    await expect(service.logout('session-jwt')).resolves.toEqual({
       localLogout: 'completed',
       upstreamLogout: 'confirmed',
     });
-    expect(sessions.revoke).toHaveBeenCalledWith(7, 'cks-jwt');
+    expect(sessions.revoke).toHaveBeenCalledWith(7, 'session-jwt');
     expect(oauthClient.logout).toHaveBeenCalledWith('rt-plain');
   });
 
@@ -45,7 +45,7 @@ describe('AuthLogoutService.logout', () => {
     sessions.revoke.mockResolvedValue(oauthRecord());
     oauthClient.logout.mockResolvedValue(false);
 
-    await expect(service.logout('cks-jwt')).resolves.toEqual({
+    await expect(service.logout('session-jwt')).resolves.toEqual({
       localLogout: 'completed',
       upstreamLogout: 'unconfirmed',
       message: OAUTH_LOGOUT_UNCONFIRMED_MESSAGE,
@@ -59,7 +59,7 @@ describe('AuthLogoutService.logout', () => {
       encryptedRefreshToken: 'v1.bad.bad.bad',
     });
 
-    await expect(service.logout('cks-jwt')).resolves.toMatchObject({
+    await expect(service.logout('session-jwt')).resolves.toMatchObject({
       upstreamLogout: 'unconfirmed',
     });
     expect(oauthClient.logout).not.toHaveBeenCalled();
@@ -72,7 +72,7 @@ describe('AuthLogoutService.logout', () => {
       encryptedRefreshToken: null,
     });
 
-    await expect(service.logout('cks-jwt')).resolves.toEqual({
+    await expect(service.logout('session-jwt')).resolves.toEqual({
       localLogout: 'completed',
       upstreamLogout: 'not_applicable',
     });
@@ -83,7 +83,7 @@ describe('AuthLogoutService.logout', () => {
     const { service, sessions, oauthClient } = setup();
     sessions.revoke.mockResolvedValue(oauthRecord(null));
 
-    await expect(service.logout('cks-jwt')).resolves.toEqual({
+    await expect(service.logout('session-jwt')).resolves.toEqual({
       localLogout: 'completed',
       upstreamLogout: 'unconfirmed',
       message: OAUTH_LOGOUT_UNCONFIRMED_MESSAGE,
@@ -94,7 +94,7 @@ describe('AuthLogoutService.logout', () => {
   it.each([
     ['無 cookie', null, undefined],
     ['JWT 過期／無效', 'bad-jwt', null],
-    ['session 已不存在（重複登出）', 'cks-jwt', { userId: 7 }],
+    ['session 已不存在（重複登出）', 'session-jwt', { userId: 7 }],
   ])('%s → not_attempted，不宣稱上游完成', async (_label, token, verified) => {
     const { service, verifier, sessions, oauthClient } = setup();
     if (verified !== undefined)
@@ -112,7 +112,7 @@ describe('AuthLogoutService.logout', () => {
     const { service, sessions, oauthClient } = setup();
     sessions.revoke.mockRejectedValue(new Error('synthetic redis down'));
 
-    await expect(service.logout('cks-jwt')).rejects.toMatchObject({
+    await expect(service.logout('session-jwt')).rejects.toMatchObject({
       code: AppErrorCode.AUTH_SESSION_UNAVAILABLE,
     });
     expect(oauthClient.logout).not.toHaveBeenCalled();

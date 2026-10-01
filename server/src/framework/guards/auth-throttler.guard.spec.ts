@@ -44,17 +44,16 @@ const createContext = (
     switchToHttp: () => ({ getRequest: () => req, getResponse: () => res }),
   }) as unknown as ExecutionContext;
 
-const detail = (): ThrottlerLimitDetail =>
-  ({
-    ttl: 60000,
-    limit: 10,
-    key: 'hashed-key',
-    tracker: '203.0.113.9',
-    totalHits: 11,
-    timeToExpire: 42,
-    isBlocked: true,
-    timeToBlockExpire: 42,
-  }) as ThrottlerLimitDetail;
+const detail = (): ThrottlerLimitDetail => ({
+  ttl: 60000,
+  limit: 10,
+  key: 'hashed-key',
+  tracker: '203.0.113.9',
+  totalHits: 11,
+  timeToExpire: 42,
+  isBlocked: true,
+  timeToBlockExpire: 42,
+});
 
 describe('AuthThrottlerGuard', () => {
   describe('getTracker', () => {
@@ -132,10 +131,12 @@ describe('AuthThrottlerGuard', () => {
         { header },
       );
 
-      const error = await guard.throwThrottlingException(context, detail()).then(
-        () => undefined,
-        (thrown: unknown) => thrown,
-      );
+      const error = await guard
+        .throwThrottlingException(context, detail())
+        .then(
+          () => undefined,
+          (thrown: unknown) => thrown,
+        );
 
       return { error, header, warn };
     };

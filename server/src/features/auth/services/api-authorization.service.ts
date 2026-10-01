@@ -95,7 +95,7 @@ export class ApiAuthorizationService {
            ON jp.id = rp.permission_id AND jp.deleted_at IS NULL
          LEFT JOIN auth_group_jobs gj
            ON gj.id = jp.job_id AND gj.is_active = 1 AND gj.deleted_at IS NULL
-         LEFT JOIN auth_cks_group g
+         LEFT JOIN auth_group g
            ON g.id = gj.group_id AND g.is_active = 1 AND g.deleted_at IS NULL
         WHERE u.id = ? AND u.deleted_at IS NULL`,
       [userId],

@@ -34,7 +34,7 @@ export interface OauthTokens {
   refreshToken: string | null;
 }
 
-/** UserInfo 中 CKS 需要的欄位（sub 與員編皆為不透明字串，不轉數字）。 */
+/** UserInfo 中本系統需要的欄位（sub 與員編皆為不透明字串，不轉數字）。 */
 export interface OauthUserInfo {
   sub: string;
   employeeNumber: string | null;

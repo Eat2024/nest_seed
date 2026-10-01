@@ -6,7 +6,7 @@ describe('RBAC seed 冪等 (e2e)', () => {
   let ds: DataSource;
 
   const COUNT_TABLES = [
-    'auth_cks_group',
+    'auth_group',
     'auth_group_jobs',
     'auth_job_permission',
     'auth_roles',

@@ -34,7 +34,7 @@ import { AuthSessionVerifierService } from './auth-session-verifier.service';
 
 /**
  * 分頁清單回應——分頁欄位一律**攤平在第一層**，不包 `meta`
- * （2026-07-29 全站統一：與 `GET /acceptance/lines`、`GET /orders/:id/lines` 同形狀）。
+ * （全站統一的分頁回應形狀）。
  */
 export interface PagedUsers {
   users: UserListItem[];

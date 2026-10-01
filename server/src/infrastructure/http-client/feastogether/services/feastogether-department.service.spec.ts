@@ -31,7 +31,7 @@ describe('FeastogetherDepartmentService', () => {
     );
   });
 
-  it('上游錯誤 → 轉 CKS error code（不外露上游）', async () => {
+  it('上游錯誤 → 轉本系統 error code（不外露上游）', async () => {
     const { service, client } = build();
     client.get.mockRejectedValue(new FeastogetherApiError(503, null, 'x'));
 

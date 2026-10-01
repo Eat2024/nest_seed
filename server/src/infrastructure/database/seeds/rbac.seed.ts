@@ -5,7 +5,7 @@
 // CLI 執行：pnpm -C server seed:rbac
 import { DataSource } from 'typeorm';
 import { buildMysqlOptions } from '#app/infrastructure/database/mysql/mysql.options';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRole } from '#app/features/auth/entities/auth-role.entity';
@@ -43,7 +43,7 @@ async function upsertGroup(
   group: DictGroup,
   sortOrder: number,
 ): Promise<number> {
-  const repo = ds.getRepository(AuthCksGroup);
+  const repo = ds.getRepository(AuthGroup);
   await repo.upsert(
     {
       groupKey: group.groupKey,

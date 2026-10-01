@@ -33,10 +33,6 @@ export const permissionActions: PermissionGroup[] = [
             visibility: true,
           },
           {
-            action: PermissionAction.BUILD,
-            visibility: false,
-          },
-          {
             action: PermissionAction.DELETE,
             visibility: true,
           },
@@ -57,10 +53,6 @@ export const permissionActions: PermissionGroup[] = [
           {
             action: PermissionAction.CREATE_EDIT,
             visibility: true,
-          },
-          {
-            action: PermissionAction.BUILD,
-            visibility: false,
           },
           {
             action: PermissionAction.DELETE,

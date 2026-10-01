@@ -20,7 +20,7 @@ export interface VerifiedOauthProfile {
 const MAX_ATTEMPTS = 2;
 
 /**
- * OAuth 身分 ↔ CKS 帳號對應（spec D3 修訂 2026-09-20：一律以已驗證員編對照）：
+ * OAuth 身分 ↔ 本地帳號對應（一律以已驗證員編對照）：
  * 1. 以 UserInfo 的 employee_number 找 auth_users.person_empid；找到即為該使用者
  *    （含 seed:rbac 以 SUPER_ADMIN_EMPID 預建、已綁 ADMIN 的初始管理員）。
  * 2. 找不到 → 建立無角色帳號。

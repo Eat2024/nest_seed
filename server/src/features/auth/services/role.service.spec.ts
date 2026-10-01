@@ -6,7 +6,7 @@ import {
 } from '#app/features/auth/auth.constants';
 import { AuthRole } from '#app/features/auth/entities/auth-role.entity';
 import { AuthUser } from '#app/features/auth/entities/auth-user.entity';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permission.entity';
@@ -98,7 +98,7 @@ const setup = () => {
   const db = {
     authRole: repoFor(AuthRole),
     authUser: repoFor(AuthUser),
-    authCksGroup: repoFor(AuthCksGroup),
+    authGroup: repoFor(AuthGroup),
     authGroupJob: repoFor(AuthGroupJob),
     authJobPermission: repoFor(AuthJobPermission),
     authRolePermission: repoFor(AuthRolePermission),
@@ -592,9 +592,9 @@ describe('RoleService', () => {
       repoFor(AuthRole).findOne = jest
         .fn()
         .mockResolvedValue({ ...normalRole });
-      repoFor(AuthCksGroup).find = jest
+      repoFor(AuthGroup).find = jest
         .fn()
-        .mockResolvedValue([{ id: 10, groupName: 'G' } as AuthCksGroup]);
+        .mockResolvedValue([{ id: 10, groupName: 'G' } as AuthGroup]);
       repoFor(AuthGroupJob).find = jest
         .fn()
         .mockResolvedValue([

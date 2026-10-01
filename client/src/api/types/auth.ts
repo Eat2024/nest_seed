@@ -1,7 +1,6 @@
 export enum PermissionAction {
   VIEW = "view",
   CREATE_EDIT = "createEdit",
-  BUILD = "build",
   DELETE = "delete",
   PRINT_EXPORT = "printExport",
 }

@@ -30,7 +30,7 @@ const setup = () => {
   };
   const user = { id: 7, personEmpid: 'SYN0001', isActive: true };
   const identities = { resolve: jest.fn().mockResolvedValue(user) };
-  const sessions = { issue: jest.fn().mockResolvedValue('cks-jwt') };
+  const sessions = { issue: jest.fn().mockResolvedValue('session-jwt') };
   const authorization = {
     rememberUser: jest.fn().mockResolvedValue(undefined),
   };
@@ -100,7 +100,7 @@ describe('OauthLoginService.getAccessTokenAndUserInfo', () => {
       'browser-token',
     );
 
-    expect(result.accessToken).toBe('cks-jwt');
+    expect(result.accessToken).toBe('session-jwt');
     expect(result.redirectTo).toBe('/orders');
     expect(client.exchangeCode).toHaveBeenCalledWith(
       { code: 'code-1', state: 'st', iss: undefined },

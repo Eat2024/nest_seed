@@ -6,7 +6,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-/** fgapi 員編查詢資料；依 CKS 欄位長度驗證，避免外部資料直接落庫。 */
+/** fgapi 員編查詢資料；依本地欄位長度驗證，避免外部資料直接落庫。 */
 export class StaffLookupDto {
   @IsString()
   @Matches(/^[A-Za-z0-9]+$/)

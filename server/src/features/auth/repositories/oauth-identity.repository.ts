@@ -14,7 +14,7 @@ export function isDuplicateEntryError(error: unknown): boolean {
 }
 
 /**
- * OAuth 登入對應 CKS 帳號的資料存取。查詢皆 withDeleted：
+ * OAuth 登入對應本地帳號的資料存取。查詢皆 withDeleted：
  * 已軟刪的使用者要能被看見才能「拒絕」，而不是被當成不存在而重建繞過。
  */
 @Injectable()
@@ -43,7 +43,10 @@ export class OauthIdentityRepository {
   }
 
   createUser(
-    fields: Pick<AuthUser, 'personEmpid' | 'personName' | 'lastLoginAt' | 'oauthSub'>,
+    fields: Pick<
+      AuthUser,
+      'personEmpid' | 'personName' | 'lastLoginAt' | 'oauthSub'
+    >,
     manager: EntityManager,
   ): Promise<AuthUser> {
     return manager.save(

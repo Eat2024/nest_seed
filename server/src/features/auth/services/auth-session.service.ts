@@ -74,7 +74,7 @@ export function sessionKey(userId: number | string, token: string): string {
 
 /**
  * 本地 session 的簽發／讀取／撤銷。
- * JWT 的 sub 維持 CKS user.id（不是 OAuth sub）；jti 隨機，避免同秒同人登入產生相同 token。
+ * JWT 的 sub 維持本地 user.id（不是 OAuth sub）；jti 隨機，避免同秒同人登入產生相同 token。
  * TTL 固定 24 小時、不滑動（FR-015）。
  */
 @Injectable()
