@@ -24,7 +24,6 @@ const PermissionJobRow = ({
   const someChecked = permissionValues.some(Boolean);
   const isViewChecked = [
     PermissionAction.CREATE_EDIT,
-    PermissionAction.BUILD,
     PermissionAction.DELETE,
     PermissionAction.PRINT_EXPORT,
   ].some((a) => jobPermissions?.[a]);

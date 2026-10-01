@@ -2,11 +2,11 @@
 // 038 饗賓 OAuth 登入／登出 e2e（認證強制模式；真 MySQL／Redis）。
 //
 // `openid-client` 於 Jest 內為測試替身（test/stubs/openid-client.stub.ts）：
-// 協定驗簽交給套件，本檔驗證 CKS 這一側——登入交易一次性與瀏覽器綁定、身分配對
+// 協定驗簽交給套件，本檔驗證本系統這一側——登入交易一次性與瀏覽器綁定、身分配對
 // （D3 規則與真唯一約束）、session 格式、登出撤銷與上游結果如實回報。
 import { randomBytes } from 'crypto';
 process.env.OAUTH_ISSUER = 'https://auth.example.com';
-process.env.OAUTH_CLIENT_ID = 'cks-web-synthetic';
+process.env.OAUTH_CLIENT_ID = 'web-client-synthetic';
 process.env.OAUTH_CLIENT_SECRET = 'synthetic-client-secret';
 process.env.OAUTH_REDIRECT_URI = 'http://localhost:3000/oauth/callback';
 process.env.OAUTH_LOGOUT_URL = 'https://auth.example.com/logout';
@@ -338,9 +338,9 @@ describe('security: OAuth login / logout (038)', () => {
     });
 
     expect(res.status).toBe(200);
-    expect(
-      (res.body as ApiSuccess<CallbackData>).data.session.user.id,
-    ).toBe(ids.viewerBUserId);
+    expect((res.body as ApiSuccess<CallbackData>).data.session.user.id).toBe(
+      ids.viewerBUserId,
+    );
     await expect(subOf(SECURITY_EMPIDS.viewerB)).resolves.toBe('sub-viewer');
   });
 

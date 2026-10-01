@@ -12,7 +12,7 @@ import {
  * 只接受 state、code／error（擇一）、iss；不接受 token、userId、redirect_uri 或 redirectTo 覆寫。
  */
 export class OauthCallbackDto {
-  @ApiProperty({ description: '授權請求時由 CKS 產生的 state' })
+  @ApiProperty({ description: '授權請求時由本系統產生的 state' })
   @IsString()
   @Length(1, 256)
   @Matches(/^[\x21-\x7e]+$/, { message: 'state 只允許可見 ASCII 字元' })

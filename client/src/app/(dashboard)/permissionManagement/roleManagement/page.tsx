@@ -19,7 +19,7 @@ import { keepPreviousData } from "@tanstack/react-query";
 import { Fragment, SyntheticEvent, useState } from "react";
 
 const MIN_WIDTH = 680;
-const RIGHT_COLUMNS = ["檢視", "新增/編輯", "建立", "刪除/清空", "列印/匯出"];
+const RIGHT_COLUMNS = ["檢視", "新增/編輯", "刪除/清空", "列印/匯出"];
 
 const RoleManagementPage = () => {
   const [selectedRoleId, setSelectedRoleId] = useState<number | null>(null);

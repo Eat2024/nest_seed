@@ -64,7 +64,8 @@ export class OauthController {
   @HttpCode(HttpStatus.OK)
   @Header('Cache-Control', 'no-store')
   @ApiOperation({
-    summary: '統一登入回呼：以 code／state 完成驗證並下發 CKS HttpOnly cookie',
+    summary:
+      '統一登入回呼：以 code／state 完成驗證並下發本系統 HttpOnly cookie',
   })
   async callback(
     @Body() dto: OauthCallbackDto,

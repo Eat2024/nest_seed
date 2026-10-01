@@ -7,7 +7,6 @@ import { Box } from "@mui/material";
 const ACTION_ORDER = [
   PermissionAction.VIEW,
   PermissionAction.CREATE_EDIT,
-  PermissionAction.BUILD,
   PermissionAction.DELETE,
   PermissionAction.PRINT_EXPORT,
 ];

@@ -3,7 +3,7 @@ import {
   ACTION_ORDER,
   PermissionAction,
 } from '#app/features/auth/auth.constants';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRole } from '#app/features/auth/entities/auth-role.entity';
@@ -96,7 +96,7 @@ export function buildRoleItem(role: AuthRole, userCount: number): RoleListItem {
  * 輸入的 groups / jobs 已由 service 依 sortOrder 排序。
  */
 export function toPermissionCatalog(
-  groups: AuthCksGroup[],
+  groups: AuthGroup[],
   jobs: AuthGroupJob[],
   permissions: AuthJobPermission[],
 ): PermissionCatalog {
@@ -130,7 +130,7 @@ export function toPermissionCatalog(
  */
 export function toPermissionMatrix(
   role: AuthRole,
-  groups: AuthCksGroup[],
+  groups: AuthGroup[],
   jobs: AuthGroupJob[],
   permissions: AuthJobPermission[],
   checkedIds: ReadonlySet<number>,

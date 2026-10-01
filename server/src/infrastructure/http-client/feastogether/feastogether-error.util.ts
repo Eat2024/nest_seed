@@ -4,7 +4,7 @@ import { AppErrorCode } from '#app/common/errors/app-error-code';
 import { FeastogetherApiError } from './feastogether.client';
 
 /**
- * 饗賓端點（brand / department / hr / 字典）的通用 upstream→CKS 錯誤對應。
+ * 饗賓端點（brand / department / hr / 字典）的通用 upstream→本系統錯誤對應。
  *
  * - 401/403 → UNAUTHORIZED（使用者饗賓 token 失效 / 無權）
  * - 其餘 / 連線失敗 → 502 EATOGETHER_API_SERVICE_UNAVAILABLE

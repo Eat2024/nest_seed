@@ -171,7 +171,7 @@ describe('Users (e2e)', () => {
     const hit = apiData<UserListData>(res).users.find((u) => u.empId === empid);
     expect(hit).toBeDefined();
     expect(hit).toHaveProperty('personStatus'); // 保留（饗賓人在職狀態）
-    expect(hit!.isActive).toBe(true); // CKS 帳號啟用
+    expect(hit!.isActive).toBe(true); // 本地帳號啟用
     expect(hit!.isSystemAdmin).toBe(true); // ADMIN 角色
   });
 

@@ -24,7 +24,7 @@ describe('date-time.helper', () => {
     /**
      * 關鍵案例：UTC 與台北落在**不同日曆日**的時段。
      * 用 `new Date().getMonth()/getDate()` 在 UTC container 上會取到前一天——
-     * 央廚早上 7 點進貨建單，單名就會變成昨天（見 `todayMmdd`）。
+     * 台北早上 8 點前產生的日期字串就會變成昨天。
      * 本測試明確傳入時區，故在任何機器時區下結果都相同。
      */
     it('台灣 07:00（UTC 前一日 23:00）→ 取台北的日曆日', () => {
@@ -48,8 +48,8 @@ describe('date-time.helper', () => {
   });
 
   describe('todayInTaipei（全專案取「今天」的唯一入口）', () => {
-    // UTC 07/29 23:00 ＝ 台北 07/30 07:00（早班進貨時段）。
-    // 用本地 getter 在 UTC container 上會取到 07/29——單名、允收期限都會差一天。
+    // UTC 07/29 23:00 ＝ 台北 07/30 07:00（台北早上）。
+    // 用本地 getter 在 UTC container 上會取到 07/29——以日期命名或計算期限的資料都會差一天。
     const UTC_EVENING = new Date('2026-07-29T23:00:00Z');
 
     it('取台北的日曆日，不是 server 本地時區的', () => {

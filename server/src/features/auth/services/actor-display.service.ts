@@ -4,7 +4,7 @@
 // 稽核欄 `created_by` / `updated_by` 存的是 **`auth_users.id` 的字串形式**
 // （JWT `sub` ＝ `String(user.id)`，經 AuthGuard → CLS → AuditSubscriber 寫入），
 // 直接下發等於讓畫面顯示一串流水號。集中在這裡而非各 feature 自己查，
-// 是因為三處要的是同一件事（026 列表／明細、028 列表、驗收抽屜 feed），
+// 是因為各 feature 要的是同一件事（列表、明細、異動紀錄），
 // 各寫一份必然在 `withDeleted` 這種細節上漂移。
 import { Injectable } from '@nestjs/common';
 import { UserAccountRepository } from '#app/features/auth/repositories/user-account.repository';

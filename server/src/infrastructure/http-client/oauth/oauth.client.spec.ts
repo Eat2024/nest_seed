@@ -6,16 +6,16 @@ import { OauthConfig } from './oauth.config';
 
 /**
  * OauthClient 單元測：jest moduleNameMapper 已把 `openid-client` 對應到測試替身，
- * 這裡只驗「CKS 怎麼呼叫套件、失敗怎麼對應錯誤碼、logout 怎麼判定確認」。
+ * 這裡只驗「本系統怎麼呼叫套件、失敗怎麼對應錯誤碼、logout 怎麼判定確認」。
  */
 const buildConfig = (override: Record<string, string> = {}) =>
   new OauthConfig({
     get: (key: string) =>
       ({
         OAUTH_ISSUER: 'https://auth.example.com',
-        OAUTH_CLIENT_ID: 'cks-web',
+        OAUTH_CLIENT_ID: 'web-client',
         OAUTH_CLIENT_SECRET: 'synthetic-secret',
-        OAUTH_REDIRECT_URI: 'https://cks.example.com/oauth/callback',
+        OAUTH_REDIRECT_URI: 'https://app.example.com/oauth/callback',
         OAUTH_LOGOUT_URL: 'https://auth.example.com/logout',
         OAUTH_TOKEN_ENCRYPTION_KEY: randomBytes(32).toString('base64'),
         ...override,
@@ -40,7 +40,7 @@ describe('OauthClient', () => {
 
     const url = new URL(first);
     expect(url.searchParams.get('redirect_uri')).toBe(
-      'https://cks.example.com/oauth/callback',
+      'https://app.example.com/oauth/callback',
     );
     expect(url.searchParams.get('scope')).toBe('openid profile email');
     expect(url.searchParams.get('state')).toBe('st');
@@ -110,7 +110,7 @@ describe('OauthClient', () => {
     const [, currentUrl, checks] = oidcStub.authorizationCodeGrant.mock
       .calls[0] as [unknown, URL, Record<string, unknown>];
     expect(currentUrl.origin + currentUrl.pathname).toBe(
-      'https://cks.example.com/oauth/callback',
+      'https://app.example.com/oauth/callback',
     );
     expect(currentUrl.searchParams.get('code')).toBe('c');
     expect(currentUrl.searchParams.get('iss')).toBe('https://auth.example.com');
@@ -174,7 +174,7 @@ describe('OauthClient', () => {
       expect(init.method).toBe('POST');
       expect(init.redirect).toBe('manual');
       expect((init.body as URLSearchParams).toString()).toBe(
-        'client_id=cks-web&client_secret=synthetic-secret&refresh_token=rt-1',
+        'client_id=web-client&client_secret=synthetic-secret&refresh_token=rt-1',
       );
     });
 

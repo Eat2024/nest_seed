@@ -4,27 +4,26 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
  * Auth / RBAC 初始 schema：使用者、角色、三層權限字典（group → job → permission）、
  * 角色 × 權限、端點登錄（@RegisterApi 開機同步）、通用稽核紀錄。
  *
- * 內容對齊 CKS_Acceptance_System 跑完全部 migration 後的最終 auth 表結構，
- * 合併為單一 migration（新專案不需重播 CKS 的演進歷史）；欄位註解與 FK 名稱
+ * 單一 migration 建立全部 auth 表；欄位註解與 FK 名稱
  * 以 entity 為準，`migration:generate` 不會產生差異。
  * 權限字典 / ADMIN 角色 / 超級使用者由 `pnpm seed:rbac` 寫入，不在此處。
  */
 const CREATE_TABLES: ReadonlyArray<[table: string, ddl: string]> = [
   [
-    'auth_cks_group',
-    `CREATE TABLE \`auth_cks_group\` (
+    'auth_group',
+    `CREATE TABLE \`auth_group\` (
   \`created_at\` datetime(6) NOT NULL DEFAULT current_timestamp(6) COMMENT '建立時間',
   \`updated_at\` datetime(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6) COMMENT '更新時間',
   \`deleted_at\` datetime(6) DEFAULT NULL COMMENT '刪除時間（軟刪除）',
   \`created_by\` varchar(64) DEFAULT NULL COMMENT '建立者（使用者 ID）',
   \`updated_by\` varchar(64) DEFAULT NULL COMMENT '更新者（使用者 ID）',
   \`id\` bigint NOT NULL AUTO_INCREMENT COMMENT '流水號',
-  \`group_key\` varchar(100) NOT NULL COMMENT '分組鍵，例 centralKitchenAcceptance',
-  \`group_name\` varchar(100) NOT NULL COMMENT '分組名稱，例 央廚驗收',
+  \`group_key\` varchar(100) NOT NULL COMMENT '分組鍵，例 permissionManagement',
+  \`group_name\` varchar(100) NOT NULL COMMENT '分組名稱，例 權限管理',
   \`sort_order\` int DEFAULT NULL COMMENT '顯示排序',
   \`is_active\` tinyint NOT NULL DEFAULT 1 COMMENT '啟用',
   PRIMARY KEY (\`id\`),
-  UNIQUE KEY \`uq_auth_cks_group_group_key\` (\`group_key\`)
+  UNIQUE KEY \`uq_auth_group_group_key\` (\`group_key\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='權限分組（層級第一層）'`,
   ],
   [
@@ -36,7 +35,7 @@ const CREATE_TABLES: ReadonlyArray<[table: string, ddl: string]> = [
   \`created_by\` varchar(64) DEFAULT NULL COMMENT '建立者（使用者 ID）',
   \`updated_by\` varchar(64) DEFAULT NULL COMMENT '更新者（使用者 ID）',
   \`id\` bigint NOT NULL AUTO_INCREMENT COMMENT '流水號',
-  \`group_id\` bigint NOT NULL COMMENT '分組（FK→auth_cks_group.id）',
+  \`group_id\` bigint NOT NULL COMMENT '分組（FK→auth_group.id）',
   \`job_key\` varchar(100) NOT NULL COMMENT '功能鍵，例 roleManagement',
   \`job_name\` varchar(100) NOT NULL COMMENT '功能名稱',
   \`sort_order\` int DEFAULT NULL COMMENT '顯示排序',
@@ -82,7 +81,7 @@ const CREATE_TABLES: ReadonlyArray<[table: string, ddl: string]> = [
   \`sort_order\` int DEFAULT NULL COMMENT '顯示排序',
   PRIMARY KEY (\`id\`),
   UNIQUE KEY \`uq_auth_roles_role_code\` (\`role_code\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='CKS 本地系統角色'`,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='本地系統角色'`,
   ],
   [
     'auth_role_permissions',
@@ -117,14 +116,14 @@ const CREATE_TABLES: ReadonlyArray<[table: string, ddl: string]> = [
   \`department_code\` varchar(50) DEFAULT NULL COMMENT '部門/門市代碼（顯示）',
   \`department_name\` varchar(150) DEFAULT NULL COMMENT '部門名稱（冗餘顯示；來源同步時一併寫入）',
   \`title_name\` varchar(100) DEFAULT NULL COMMENT '職稱名稱（冗餘顯示；來源同步時一併寫入）',
-  \`description\` varchar(500) DEFAULT NULL COMMENT 'CKS 本地備註（不被登入同步覆蓋）',
-  \`is_active\` tinyint NOT NULL DEFAULT 1 COMMENT 'CKS 帳號啟用',
+  \`description\` varchar(500) DEFAULT NULL COMMENT '本地備註（不被登入同步覆蓋）',
+  \`is_active\` tinyint NOT NULL DEFAULT 1 COMMENT '帳號啟用',
   \`last_login_at\` datetime(6) DEFAULT NULL COMMENT '最後登入時間',
   PRIMARY KEY (\`id\`),
   UNIQUE KEY \`uq_auth_users_person_empid\` (\`person_empid\`),
   KEY \`idx_auth_users_role_id\` (\`role_id\`),
   KEY \`idx_auth_users_department_code\` (\`department_code\`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='CKS 本地使用者'`,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='本地使用者'`,
   ],
   [
     'auth_apis',

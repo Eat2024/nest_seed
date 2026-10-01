@@ -27,7 +27,8 @@ export const SESSION_SOURCE = {
   OAUTH: 'oauth',
   DEV: 'dev',
 } as const;
-export type SessionSource = (typeof SESSION_SOURCE)[keyof typeof SESSION_SOURCE];
+export type SessionSource =
+  (typeof SESSION_SOURCE)[keyof typeof SESSION_SOURCE];
 
 /** 開發者登入使用的固定帳號（與真實員工區隔，稽核與帳號管理一眼可辨）。 */
 export const DEV_LOGIN_EMPID = 'dev-admin';
@@ -63,7 +64,6 @@ export const ACTION_ORDER = [
   'createEdit',
   'delete',
   'printExport',
-  'build',
 ] as const;
 
 export type PermissionAction = (typeof ACTION_ORDER)[number];
@@ -74,7 +74,6 @@ export const ACTION_LABEL: Record<PermissionAction, string> = {
   createEdit: '新增/編輯',
   delete: '刪除',
   printExport: '列印/匯出',
-  build: '建立',
 };
 
 export const AUDIT_ACTION = {
@@ -120,7 +119,6 @@ export const AUTH_RATE_LIMIT_SHORT_TTL_SECONDS = 60;
 export const AUTH_RATE_LIMIT_LONG_NAME = 'long';
 export const AUTH_RATE_LIMIT_LONG_LIMIT = 50;
 export const AUTH_RATE_LIMIT_LONG_TTL_SECONDS = 300;
-
 
 /**
  * 超限回應訊息。刻意不含數字與帳號資訊——不洩漏剩餘額度，

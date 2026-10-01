@@ -29,7 +29,7 @@ export class ListUsersDto {
   @Min(1)
   page: number = 1;
 
-  /** 每頁筆數——全站統一 `pageSize`、預設 50、上限 200（2026-07-29 對齊 acceptance 清單）。 */
+  /** 每頁筆數——全站統一 `pageSize`、預設 50、上限 200。 */
   @IsOptional()
   @Type(() => Number)
   @IsInt()

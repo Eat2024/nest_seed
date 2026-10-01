@@ -11,7 +11,7 @@ import { AuthController } from './auth.controller';
  */
 const makeReq = (over: Partial<{ cookies: object; user: object }> = {}) =>
   ({
-    cookies: { [AUTH_COOKIE_NAME]: 'cks-token' },
+    cookies: { [AUTH_COOKIE_NAME]: 'session-token' },
     user: { id: '7' },
     ...over,
   }) as unknown as FastifyRequest & { user?: { id: string } };
@@ -59,7 +59,7 @@ describe('AuthController.logout', () => {
       localLogout: 'completed',
       upstreamLogout: 'confirmed',
     });
-    expect(logoutService.logout).toHaveBeenCalledWith('cks-token');
+    expect(logoutService.logout).toHaveBeenCalledWith('session-token');
     expect(reply.clearCookie).toHaveBeenCalledWith(AUTH_COOKIE_NAME, {
       path: '/',
     });
@@ -87,7 +87,7 @@ describe('AuthController.me', () => {
 
     await controller.me(makeReq());
 
-    expect(authService.getMe).toHaveBeenCalledWith(7, 'cks-token');
+    expect(authService.getMe).toHaveBeenCalledWith(7, 'session-token');
   });
 });
 

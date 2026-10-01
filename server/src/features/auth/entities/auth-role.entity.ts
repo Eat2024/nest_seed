@@ -1,8 +1,8 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 import { AuditableEntity } from '#app/infrastructure/database/auditable.entity';
 
-/** auth_roles — CKS 本地系統角色。 */
-@Entity({ name: 'auth_roles', comment: 'CKS 本地系統角色' })
+/** auth_roles — 本地系統角色。 */
+@Entity({ name: 'auth_roles', comment: '本地系統角色' })
 export class AuthRole extends AuditableEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint', comment: '流水號' })
   id!: number;

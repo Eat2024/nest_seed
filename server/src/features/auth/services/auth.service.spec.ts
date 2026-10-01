@@ -64,20 +64,20 @@ describe('AuthService.getMe', () => {
     const { service, redis } = setup();
     redis.get.mockResolvedValue(oauthSession);
 
-    await expect(service.getMe(7, 'cks-token')).resolves.toMatchObject({
+    await expect(service.getMe(7, 'session-token')).resolves.toMatchObject({
       user: { id: 7, empId: 'SYN001', name: '合成使用者' },
       role: { id: 3, roleCode: 'SYNTHETIC' },
       groups: [],
       jobPermissions: [],
     });
-    expect(redis.get).toHaveBeenCalledWith('auth:7:cks-token');
+    expect(redis.get).toHaveBeenCalledWith('auth:7:session-token');
   });
 
   it('session 已撤銷（Redis 無值）→ 401', async () => {
     const { service, redis } = setup();
     redis.get.mockResolvedValue(null);
 
-    await expect(service.getMe(7, 'cks-token')).rejects.toMatchObject({
+    await expect(service.getMe(7, 'session-token')).rejects.toMatchObject({
       status: HttpStatus.UNAUTHORIZED,
     });
   });
@@ -89,7 +89,7 @@ describe('AuthService.getMe', () => {
     const { service, redis } = setup();
     redis.get.mockResolvedValue(JSON.stringify(raw));
 
-    await expect(service.getMe(7, 'cks-token')).rejects.toMatchObject({
+    await expect(service.getMe(7, 'session-token')).rejects.toMatchObject({
       status: HttpStatus.UNAUTHORIZED,
     });
   });
@@ -103,7 +103,7 @@ describe('AuthService.getMe', () => {
     });
     redis.get.mockResolvedValue(oauthSession);
 
-    await expect(service.getMe(7, 'cks-token')).rejects.toMatchObject({
+    await expect(service.getMe(7, 'session-token')).rejects.toMatchObject({
       status: HttpStatus.UNAUTHORIZED,
     });
   });
@@ -120,7 +120,9 @@ describe('AuthService.getMe', () => {
   it('userId 非法 → 401，不查 DB／Redis', async () => {
     const { service, redis, db } = setup();
 
-    await expect(service.getMe(Number.NaN, 'cks-token')).rejects.toMatchObject({
+    await expect(
+      service.getMe(Number.NaN, 'session-token'),
+    ).rejects.toMatchObject({
       status: HttpStatus.UNAUTHORIZED,
     });
     expect(db.authUser.findOne).not.toHaveBeenCalled();

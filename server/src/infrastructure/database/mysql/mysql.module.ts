@@ -7,7 +7,7 @@ import { AuditLogTarget } from '#app/features/auth/entities/audit-log-target.ent
 import { AuditLog } from '#app/features/auth/entities/audit-log.entity';
 import { AuthApiPermission } from '#app/features/auth/entities/auth-api-permission.entity';
 import { AuthApi } from '#app/features/auth/entities/auth-api.entity';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permission.entity';
@@ -27,7 +27,7 @@ const MYSQL_REPOSITORIES: ReadonlyArray<[string, EntityTarget<object>]> = [
   ['AuditLogTargetRepository', AuditLogTarget],
   ['AuthApiRepository', AuthApi],
   ['AuthApiPermissionRepository', AuthApiPermission],
-  ['AuthCksGroupRepository', AuthCksGroup],
+  ['AuthGroupRepository', AuthGroup],
   ['AuthGroupJobRepository', AuthGroupJob],
   ['AuthJobPermissionRepository', AuthJobPermission],
   ['AuthRoleRepository', AuthRole],

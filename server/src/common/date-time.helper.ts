@@ -8,7 +8,7 @@ type DateTimeInput = Date | string | number;
  *
  * 需要字串形式的場合（例如 cron 求值時區）直接用它；
  * 需要 date-fns 時區物件的場合用下方的 `TAIPEI_TIME_ZONE`。
- * 央廚在台北，這是業務事實，不隨部署環境改變。
+ * 營運時區固定為台北，不隨部署環境（server／container 時區）改變。
  */
 export const TAIPEI_TIME_ZONE_ID = 'Asia/Taipei';
 
@@ -55,7 +55,7 @@ export function formatInTaipei(value: DateTimeInput, pattern: string): string {
  * 台北的**今日**日曆日，預設 `YYYY-MM-DD`。
  *
  * 全專案取「今天」的唯一入口——業務用的 `new Date()` 只出現在這裡一次。
- * 央廚早上 7 點進貨（台北 07:00 ＝ UTC 前一日 23:00），在 UTC container 上用本地
+ * 台北早上 8 點前（例如 07:00 ＝ UTC 前一日 23:00），在 UTC container 上用本地
  * getter 取日曆日會拿到昨天；一律走台北時區。
  *
  * 想格式化「今日以外」的某個時間點請用 {@link formatInTaipei}。

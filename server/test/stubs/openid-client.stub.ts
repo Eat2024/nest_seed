@@ -2,7 +2,7 @@
 //
 // openid-client@6 為 ESM-only；Node ≥20.19 的 require(esm) 可載入，但 Jest 的 CJS
 // 模組系統不能直接解析，故 unit／e2e 的 jest 設定皆以 moduleNameMapper 將
-// `openid-client` 對應到本檔。測試只驗 CKS 這一側的協調邏輯（交易、身分綁定、
+// `openid-client` 對應到本檔。測試只驗本系統這一側的協調邏輯（交易、身分綁定、
 // session、登出語意）；協定與驗簽交給套件本身，真套件是否能在目前 runtime 載入
 // 由 test/oauth-runtime.e2e-spec.ts 以獨立 Node 程序 smoke 驗證。
 //

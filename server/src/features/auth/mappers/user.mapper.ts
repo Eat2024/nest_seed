@@ -9,7 +9,7 @@ export interface UserRoleRef {
 
 /**
  * GET /api/users/employees 員編片段模糊搜尋 option。
- * 姓名／部門來自 fgapi，啟用狀態取 CKS 既有帳號（未建檔預設 true）。
+ * 姓名／部門來自 fgapi，啟用狀態取 本地既有帳號（未建檔預設 true）。
  */
 export interface EmployeeOption {
   empId: string;
@@ -21,7 +21,7 @@ export interface EmployeeOption {
 /**
  * GET /api/users 列表項。部門/職稱用使用者自帶冗餘欄；brandName 待 BrandDirectoryService 另案補。
  * - personStatus：饗賓人在職狀態（登入時同步，只讀）。
- * - isActive：CKS 帳號啟用旗標（批次/單筆停用操作的依據）。
+ * - isActive：本地帳號啟用旗標（批次/單筆停用操作的依據）。
  * - isSystemAdmin：是否為系統管理員（走 isAdminRole 單一述詞），供前端灰掉停用鈕。
  */
 export interface UserListItem {

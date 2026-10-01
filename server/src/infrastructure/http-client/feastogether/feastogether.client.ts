@@ -27,7 +27,7 @@ export interface FeastogetherEnvelope<T> {
 }
 
 /**
- * 饗賓 API 錯誤：保留上游 HTTP status，供各 service 對應到正確的 CKS error code
+ * 饗賓 API 錯誤：保留上游 HTTP status，供各 service 對應到正確的本系統 error code
  * （例如 401/403→授權失效、其餘/連線失敗→不可用）。
  */
 export class FeastogetherApiError extends Error {

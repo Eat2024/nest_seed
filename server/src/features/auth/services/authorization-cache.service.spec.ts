@@ -12,7 +12,7 @@ describe('AuthorizationCacheService', () => {
     userActive: true,
     roleActive: true,
     isAdmin: false,
-    permissions: ['acceptance.orders.view'],
+    permissions: ['monthlyReport.view'],
   };
 
   const setup = () => {
@@ -97,7 +97,7 @@ describe('AuthorizationCacheService', () => {
     const logs = JSON.stringify(logger.warn.mock.calls);
     expect(logs).not.toContain('synthetic-secret-token');
     expect(logs).not.toContain('合成測試使用者');
-    expect(logs).not.toContain('acceptance.orders.view');
+    expect(logs).not.toContain('monthlyReport.view');
   });
 
   it('malformed JSON 與錯誤 userId 都視為無效快取', async () => {

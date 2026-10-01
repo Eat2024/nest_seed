@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { MysqlEntityService } from '#app/infrastructure/database/mysql/mysql.entity.service';
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permission.entity';
@@ -10,8 +10,8 @@ import { AuthRolePermission } from '#app/features/auth/entities/auth-role-permis
 export class PermissionRepository {
   constructor(private readonly db: MysqlEntityService) {}
 
-  listActiveGroups(): Promise<AuthCksGroup[]> {
-    return this.db.authCksGroup.find({
+  listActiveGroups(): Promise<AuthGroup[]> {
+    return this.db.authGroup.find({
       where: { isActive: true },
       order: { sortOrder: 'ASC', id: 'ASC' },
     });
@@ -45,7 +45,7 @@ export class PermissionRepository {
         'gj.id = jp.jobId AND gj.isActive = 1 AND gj.deletedAt IS NULL',
       )
       .innerJoin(
-        AuthCksGroup,
+        AuthGroup,
         'g',
         'g.id = gj.groupId AND g.isActive = 1 AND g.deletedAt IS NULL',
       )

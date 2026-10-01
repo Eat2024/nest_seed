@@ -1,4 +1,4 @@
-import { AuthCksGroup } from '#app/features/auth/entities/auth-cks-group.entity';
+import { AuthGroup } from '#app/features/auth/entities/auth-group.entity';
 import { AuthGroupJob } from '#app/features/auth/entities/auth-group-job.entity';
 import { AuthJobPermission } from '#app/features/auth/entities/auth-job-permission.entity';
 import { AuthRole } from '#app/features/auth/entities/auth-role.entity';
@@ -33,7 +33,7 @@ describe('role.mapper', () => {
   });
 
   describe('toPermissionMatrix', () => {
-    const groups = [{ id: 1, groupName: '央廚驗收' } as AuthCksGroup];
+    const groups = [{ id: 1, groupName: '權限管理' } as AuthGroup];
     const jobs = [
       {
         id: 10,
@@ -110,9 +110,9 @@ describe('role.mapper', () => {
       expect(matrix.groups[0].jobs[0].permissions).toEqual([]);
     });
 
-    it('job 專屬的 action（如 build）不會外溢到其他 job', () => {
-      // 011：build 只存在於驗收單查詢。此處 roleManagement 沒有 build 的 DB 列，
-      // 故整個回應不得出現 build——這正是「後端不送不必要資訊」的界線。
+    it('ACTION_ORDER 有、但 DB 沒有對應列的 action（如 printExport）不會出現', () => {
+      // 此處沒有任何 job 有 printExport 的 DB 列，故整個回應不得出現 printExport——
+      // 這正是「後端不送不必要資訊」的界線。
       const matrix = toPermissionMatrix(
         role(),
         groups,
@@ -123,7 +123,7 @@ describe('role.mapper', () => {
       const everyAction = matrix.groups.flatMap((g) =>
         g.jobs.flatMap((j) => j.permissions.map((p) => p.action)),
       );
-      expect(everyAction).not.toContain('build');
+      expect(everyAction).not.toContain('printExport');
     });
   });
 });

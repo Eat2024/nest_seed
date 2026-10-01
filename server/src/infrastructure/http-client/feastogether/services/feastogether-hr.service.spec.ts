@@ -27,9 +27,7 @@ describe('FeastogetherHrService', () => {
       '/api/v1/hr/staff_lookup?person_empid=11500',
     );
     client.get.mockResolvedValue([first]);
-    await expect(service.lookupStaff('00115001')).resolves.toHaveLength(
-      1,
-    );
+    await expect(service.lookupStaff('00115001')).resolves.toHaveLength(1);
     expect(client.get).toHaveBeenLastCalledWith(
       '/api/v1/hr/staff_lookup?person_empid=00115001',
     );
@@ -37,7 +35,7 @@ describe('FeastogetherHrService', () => {
     await expect(service.lookupStaff('99999')).resolves.toEqual([]);
   });
 
-  it('lookupStaff：上游失敗統一為 502，不觸發 CKS 登出', async () => {
+  it('lookupStaff：上游失敗統一為 502，不觸發本系統登出', async () => {
     const { service, client } = build();
     client.get.mockRejectedValue(
       new FeastogetherApiError(403, {}, 'private details'),
@@ -46,7 +44,6 @@ describe('FeastogetherHrService', () => {
       status: 502,
       message: '系統有錯，請詢問IT部門',
     });
-
   });
 
   it('getShift：帶 Bearer token + 日期區間 query', async () => {

@@ -4,9 +4,9 @@ import { OauthConfig } from './oauth.config';
 
 const validEnv = (): Record<string, string> => ({
   OAUTH_ISSUER: 'https://auth.example.com',
-  OAUTH_CLIENT_ID: 'cks-web',
+  OAUTH_CLIENT_ID: 'web-client',
   OAUTH_CLIENT_SECRET: 'synthetic-secret',
-  OAUTH_REDIRECT_URI: 'https://cks.example.com/oauth/callback',
+  OAUTH_REDIRECT_URI: 'https://app.example.com/oauth/callback',
   OAUTH_LOGOUT_URL: 'https://auth.example.com/logout',
   OAUTH_TOKEN_ENCRYPTION_KEY: randomBytes(32).toString('base64'),
 });
@@ -41,7 +41,7 @@ describe('OauthConfig', () => {
     ['issuer 非 https', { OAUTH_ISSUER: 'http://auth.example.com' }],
     [
       'redirect 含 query',
-      { OAUTH_REDIRECT_URI: 'https://cks.example.com/oauth/callback?x=1' },
+      { OAUTH_REDIRECT_URI: 'https://app.example.com/oauth/callback?x=1' },
     ],
     [
       'logout 不同 origin',

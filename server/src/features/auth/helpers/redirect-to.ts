@@ -18,7 +18,8 @@ const CONTROL_CHARS = /[\x00-\x1f\x7f]/;
  * 不合法者一律退回預設首頁，不拋錯（返回位置不是使用者要修的輸入）。
  */
 export function sanitizeRedirectTo(input: unknown): string {
-  if (typeof input !== 'string' || input.length === 0) return DEFAULT_REDIRECT_TO;
+  if (typeof input !== 'string' || input.length === 0)
+    return DEFAULT_REDIRECT_TO;
   if (input.length > REDIRECT_TO_MAX_LENGTH) return DEFAULT_REDIRECT_TO;
   if (!input.startsWith('/')) return DEFAULT_REDIRECT_TO;
   if (input.startsWith('//') || input.startsWith('/\\'))

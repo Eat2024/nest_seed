@@ -12,7 +12,7 @@ export class AuthGroupJob extends AuditableEntity {
   @Column({
     name: 'group_id',
     type: 'bigint',
-    comment: '分組（FK→auth_cks_group.id）',
+    comment: '分組（FK→auth_group.id）',
   })
   groupId!: number;
 
