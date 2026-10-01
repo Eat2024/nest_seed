@@ -5,11 +5,11 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  Logger,
 } from '@nestjs/common';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { apiErrorEnvelope } from '#app/common/http/api-error-response';
 import { getRequestUrl } from '#app/framework/http/request.context';
+import { AppLoggerService } from '#app/infrastructure/logging/appLog/app-logger.service';
 
 interface HttpErrorResponse {
   error?: unknown;
@@ -20,7 +20,7 @@ interface HttpErrorResponse {
 @Injectable()
 @Catch()
 export class ExceptionHandler implements ExceptionFilter {
-  private readonly logger = new Logger(ExceptionHandler.name);
+  constructor(private readonly logger: AppLoggerService) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -52,10 +52,17 @@ export class ExceptionHandler implements ExceptionFilter {
     // HttpException 為預期的業務 / 驗證錯誤，不在此噪音記錄。
     if (!isHttpException) {
       const err = exception instanceof Error ? exception : undefined;
-      this.logger.error(
-        `${request.method} ${getRequestUrl(request)} ${err?.message ?? String(exception)}`,
-        err?.stack,
-      );
+      this.logger.error({
+        event: 'http.unhandled_exception',
+        message: err?.message ?? String(exception),
+        context: ExceptionHandler.name,
+        metadata: {
+          method: request.method,
+          path: getRequestUrl(request),
+          statusCode: status,
+          stack: err?.stack,
+        },
+      });
     }
 
     response.status(status).send(
