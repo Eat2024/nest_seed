@@ -5,7 +5,7 @@
   "description": "NestJS + Next.js 種子專案",
   "packageManager": "pnpm@10.30.3",
   "engines": {
-    "node": ">=20"
+    "node": ">=24.22.1"
   },
   "scripts": {
     "dev": "concurrently -n server,client -c blue,green \"pnpm -C server dev\" \"pnpm -C client dev\"",
