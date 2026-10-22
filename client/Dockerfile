@@ -3,7 +3,7 @@
 # build context = client/
 # 採用 Next.js standalone output（自包含 server、image 最小）
 # ========================
-FROM node:20-alpine AS builder
+FROM node:24.22.1-alpine AS builder
 
 WORKDIR /app
 RUN corepack enable
@@ -25,7 +25,7 @@ RUN pnpm build
 # ========================
 # Runtime stage
 # ========================
-FROM node:20-alpine
+FROM node:24.22.1-alpine
 
 WORKDIR /app
 ENV NODE_ENV=production

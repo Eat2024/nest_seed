@@ -2,8 +2,8 @@
 # server（NestJS）獨立 image
 # build context = server/
 # ========================
-# Node ≥20.19
-FROM node:20.19-alpine AS builder
+# Node ≥24.22.1
+FROM node:24.22.1-alpine AS builder
 
 WORKDIR /app
 RUN corepack enable
@@ -23,7 +23,7 @@ RUN pnpm prune --prod
 # ========================
 # Runtime stage
 # ========================
-FROM node:20.19-alpine
+FROM node:24.22.1-alpine
 
 WORKDIR /app
 ENV NODE_ENV=production
@@ -39,7 +39,7 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
   CMD wget -qO- http://127.0.0.1:3000/api/health || exit 1
 
-# 以非 root 執行（node:20-alpine 內建 node 使用者）。複製進來的檔案為
+# 以非 root 執行（node:24-alpine 內建 node 使用者）。複製進來的檔案為
 # world-readable，node 可讀 dist/node_modules。
 USER node
 
